@@ -1,0 +1,22 @@
+{
+  "name": "express-template",
+  "version": "0.0.1",
+  "homepage": "http://",
+  "description": "web-template",
+  "author": "xieren58",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.3.4",
+    "jade": "*"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "bower": "*"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  }
+}
