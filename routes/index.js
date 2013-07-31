@@ -1,5 +1,7 @@
 'use strict';
 
-exports.index = function (req, res){
-  res.render('index', {title: 'Express'});
+var home = require('./home');
+
+exports = module.exports = function (app) {
+  app.get('/', home.index);
 };
