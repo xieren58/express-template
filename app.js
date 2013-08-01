@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict';
 
 var http = require('http');
@@ -38,27 +39,30 @@ app.enable('trust proxy');
 app.disable('x-powered-by');
 
 // for 404
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.status(404);
   res.render('404');
 });
 
 if (env_production) {
   // for production
-  app.use(function(err, req, res, next){
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('500');
   });
 } else {
   // for development
   app.use(express.errorHandler());
-  app.locals.pretty = true;  // for jade
+  app.locals.pretty = true; // for jade
 }
 
 routes(app);
 
 if (require.main === module) {
-  http.createServer(app).listen(app.get('port'), function () {
-    return console.log('Express server listening on port %d', app.get('port'));
-  });
+  (function () {
+    http.createServer(app).listen(app.get('port'), function () {
+      console.log('Express server listening on port %d', app.get('port'));
+    });
+  })(http, app);
+
 }
