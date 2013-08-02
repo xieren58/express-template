@@ -13,13 +13,13 @@ var app = express();
 exports = module.exports = app;
 
 // check env: production or development
-var env_production = 'production' === app.get('env') ? true : false;
+var envProduction = 'production' === app.get('env') ? true : false;
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon(path.join(__dirname, 'public/favicon.ico')));
-if (env_production) {
+if (envProduction) {
   app.use(express.logger('dev'));
 }
 app.use(express.bodyParser());
@@ -44,7 +44,7 @@ app.use(function (req, res, next) {
   res.render('404');
 });
 
-if (env_production) {
+if (envProduction) {
   // for production
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
