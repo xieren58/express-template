@@ -12,6 +12,7 @@ var routes = require('./routes');
 var app = express();
 exports = module.exports = app;
 
+var csrf = express.csrf();
 // check env: production or development
 var envProduction = 'production' === app.get('env') ? true : false;
 
@@ -26,7 +27,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
-app.use(express.csrf());
+// app.use(express.csrf());
 app.use(function (req, res, next) {
   res.locals.token = req.session ? req.session._csrf : '';
   res.locals.session = req.session;
@@ -56,6 +57,11 @@ if (envProduction) {
   app.locals.pretty = true; // for jade
 }
 
+var needCsrf = function (req, res, next) {
+  csrf(req, res, next);
+};
+
+app.all('*', needCsrf);
 routes(app);
 
 if (require.main === module) {
@@ -63,6 +69,5 @@ if (require.main === module) {
     http.createServer(app).listen(app.get('port'), function () {
       console.log('Express server listening on port %d', app.get('port'));
     });
-  })(http, app);
-
+  })();
 }
